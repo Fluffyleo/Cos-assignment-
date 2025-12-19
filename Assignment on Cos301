@@ -1,0 +1,130 @@
+#include <stdio.h>
+
+// Function for Linear Search
+int linearSearch(int arr[], int n, int key)
+{
+    for(int i = 0; i < n; i++)
+    {
+        if(arr[i] == key)
+            return i;
+    }
+    return -1;
+}
+
+// Function for Binary Search (array must be sorted)
+int binarySearch(int arr[], int n, int key)
+{
+    int low = 0, high = n - 1;
+
+    while(low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if(arr[mid] == key)
+            return mid;
+        else if(arr[mid] < key)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+
+    return -1;
+}
+
+// Function to sort array (Bubble sort)
+void sortArray(int arr[], int n)
+{
+    for(int i = 0; i < n-1; i++)
+        for(int j = 0; j < n-1-i; j++)
+            if(arr[j] > arr[j+1])
+            {
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+}
+
+int main()
+{
+    int arr[20];
+    int n = 10;
+    int i, sum = 0;
+    float avg;
+
+    // 1. Input 10 student scores
+    printf("Enter 10 student scores:\n");
+    for(i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+        sum += arr[i];
+    }
+
+    // Traverse + Average
+    avg = sum / 10.0;
+
+    printf("\nScores:\n");
+    for(i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    printf("\nAverage = %.2f\n", avg);
+
+    // 2. Insert new score at 5th position
+    int newScore;
+    printf("\nEnter new score to insert at 5th position: ");
+    scanf("%d", &newScore);
+
+    for(i = n; i >= 4; i--)
+        arr[i] = arr[i-1];
+
+    arr[4] = newScore;
+    n++;
+
+    printf("\nAfter insertion:\n");
+    for(i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    // 3. Delete lowest score
+    int minIndex = 0;
+    for(i = 1; i < n; i++)
+        if(arr[i] < arr[minIndex])
+            minIndex = i;
+
+    for(i = minIndex; i < n-1; i++)
+        arr[i] = arr[i+1];
+
+    n--;
+
+    printf("\n\nAfter deleting lowest score:\n");
+    for(i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    // 4. Searching
+    int key;
+    printf("\n\nEnter score to search: ");
+    scanf("%d", &key);
+
+    // Linear Search
+    int result = linearSearch(arr, n, key);
+
+    if(result != -1)
+        printf("\nLinear Search: Found at index %d", result);
+    else
+        printf("\nLinear Search: Not found");
+
+    // Sort for Binary Search
+    sortArray(arr, n);
+
+    printf("\n\nSorted Array:\n");
+    for(i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    // Binary Search
+    result = binarySearch(arr, n, key);
+
+    if(result != -1)
+        printf("\nBinary Search: Found at index %d", result);
+    else
+        printf("\nBinary Search: Not found");
+
+    return 0;
+}
